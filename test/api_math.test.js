@@ -4,7 +4,7 @@ const app = require('../index');
 describe('POST /add', () => {
     it('should add two numbers', async () => {
         const response = await request(app)
-            .post('/add')
+            .post('/api/math/add')
             .send({ num1: 5, num2: 10 });
 
         expect(response.status).toBe(200);
@@ -13,7 +13,7 @@ describe('POST /add', () => {
 
     it('should return an error if num1 or num2 is not a number', async () => {
         const response = await request(app)
-            .post('/add')
+            .post('/api/math/add')
             .send({ num1: 'a', num2: 10 });
 
         expect(response.status).toBe(400);
