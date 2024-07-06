@@ -17,12 +17,11 @@ router.get('/names', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
     try {
-        const user_id = 42;  // FIXME save user
-        
+        const { name, email, password } = req.body; // TODO validate input
+        const [id] = await db('users').insert({ name, email, password }).returning('id');
         const token = jwt.sign(
-            { id: user_id }, 
+            { id: id }, 
             process.env.JWT_SECRET, 
             { expiresIn: '1h' }  // TODO save in config and set on one week
         );
