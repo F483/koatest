@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const db = require('../../db');
 const config = require('../../config');
+const auth = require('./auth');
 
 const router = express.Router();
 
@@ -43,6 +44,15 @@ router.post('/login', async (req, res) => {
         } else {
             res.status(400).json({ message: 'Invalid credentials!' });
         }
+    } catch (error) {
+        res.status(500).json({ message: 'Server error!' });
+    }
+});
+
+router.get('/profile', auth, async (req, res) => {
+    try {
+        const { name, email } = req.user;
+		res.status(200).json({ name, email });
     } catch (error) {
         res.status(500).json({ message: 'Server error!' });
     }

@@ -11,7 +11,7 @@ Koa Technical Test
 
  * Use typescript 
  * Better ORM that with typed models.
- * Jsonschema for API validation
+ * Jsonschema for API validation (express-jsonschema and swagger)
  * Add linting
  * Add github actions for lint and test
 
