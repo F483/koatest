@@ -131,3 +131,4 @@ dist
 
 # Other
 package-lock.json
+*.sqlite3
