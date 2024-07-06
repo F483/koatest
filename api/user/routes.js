@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../../db');
+const config = require('../../config');
 const jwt = require('jsonwebtoken');
 
 const router = express.Router();
@@ -19,11 +20,12 @@ router.get('/names', async (req, res) => {
 router.post('/register', async (req, res) => {
     try {
         const { name, email, password } = req.body; // TODO validate input
+        // FIXME handle name or email already exists
         const [id] = await db('users').insert({ name, email, password }).returning('id');
         const token = jwt.sign(
             { id: id }, 
             process.env.JWT_SECRET, 
-            { expiresIn: '1h' }  // TODO save in config and set on one week
+            { expiresIn: config.jwt_expire }
         );
         res.status(201).json({ token });
     } catch (error) {

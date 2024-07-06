@@ -14,8 +14,8 @@
     "url": "git+https://github.com/F483/koatest.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Fabian Barkhau",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/F483/koatest/issues"
   },
