@@ -11,12 +11,10 @@ const auth = async (req, res, next) => {
 			req.user = await db('users').where({ id: decoded.id }).first();
 			next();
 		} catch (error) {
-			console.log('invalid token')
 			res.status(401).json({ message: 'Not authorized, invalid token!' });
 		}
 	}
 	if (!token) {
-		console.log('no token')
 		res.status(401).json({ message: 'Not authorized, no token!' });
 	}
 };
