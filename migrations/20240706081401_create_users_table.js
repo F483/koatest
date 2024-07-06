@@ -5,8 +5,8 @@
 exports.up = function(knex) {
     return knex.schema.createTable('users', (table) => {
         table.increments('id').primary();
-        table.string('name');
-        table.string('email');
+        table.string('name');  // FIXME make unique and none null
+        table.string('email');  // FIXME make unique and none null
         table.string('password');  // bcrypt hash
     }); 
 };
