@@ -1,7 +1,8 @@
 const request = require('supertest');
 const app = require('../../index');
 
-describe('POST /add', () => {
+describe('POST /api/math/add', () => {
+
     it('should add two numbers', async () => {
         const response = await request(app)
             .post('/api/math/add')
