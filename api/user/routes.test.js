@@ -30,6 +30,12 @@ describe('POST /api/user/register', () => {
         expect(names_response.status).toBe(200);
         expect(names_response.body).toContain('New User');
 
+        // check login user
+        const login_response = await request(app)
+            .post('/api/user/login')
+            .send({ email: 'new@user.com', password: 'password' });
+        expect(login_response.status).toBe(200);
+        expect(!!login_response.body.token).toBe(true);  // FIXME check if token is valid
     });
 
     // FIXME implement and test invalid input
@@ -40,14 +46,11 @@ describe('POST /api/user/register', () => {
 describe('POST /api/user/login', () => {
 
     it('should login user', async () => {
-
-        // create user
-        const create_response = await request(app)
+        const response = await request(app)
             .post('/api/user/login')
             .send({ email: 'john@example.com', password: 'password' });
-        expect(create_response.status).toBe(200);
-        expect(!!create_response.body.token).toBe(true);  // FIXME check if token is valid
-
+        expect(response.status).toBe(200);
+        expect(!!response.body.token).toBe(true);  // FIXME check if token is valid
     });
 
     // FIXME implement and test invalid input

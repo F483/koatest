@@ -21,7 +21,9 @@ router.get('/names', async (req, res) => {
 router.post('/register', async (req, res) => {
     try {
         const { name, email, password } = req.body;
-        const [id] = await db('users').insert({ name, email, password }).returning('id');
+        const salt = await bcrypt.genSalt(10);
+        const digest = await bcrypt.hash(password, salt);
+        const [id] = await db('users').insert({ name, email, password: digest }).returning('id');
         const token = jwt.sign({ id }, config.jwt_secret, { expiresIn: config.jwt_expire });
         res.status(201).json({ token });
     } catch (error) {
@@ -34,7 +36,9 @@ router.post('/login', async (req, res) => {
         const { email, password } = req.body;
         const user = await db('users').where({ email }).first();
         if (await bcrypt.compare(password, user.password)) {
-            const token = jwt.sign({ id: user.id }, config.jwt_secret, { expiresIn: config.jwt_expire });
+            const token = jwt.sign(
+                { id: user.id }, config.jwt_secret, { expiresIn: config.jwt_expire }
+            );
             res.status(200).json({ token });
         } else {
             res.status(400).json({ message: 'Invalid credentials!' });
