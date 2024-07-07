@@ -10,9 +10,10 @@ Koa Technical Test
 
 ## Improvements Options
 
- * Use typescript 
- * Better ORM that with typed models.
- * Jsonschema for API validation (express-jsonschema and swagger)
+ * More tests, all edge cases must be coverd before it can be conscidered production ready.
+ * Jsonschema for API validation and description (express-jsonschema and swagger).
+ * Use typescript to increase general robustness.
+ * Better ORM with typed models.
  * Support Internationalization
  * Add linting
  * Add github actions for lint and test

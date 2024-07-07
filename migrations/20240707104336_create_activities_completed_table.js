@@ -8,8 +8,8 @@ exports.up = function(knex) {
 		table.timestamp('created_at').defaultTo(knex.fn.now());
         table.integer('user_id').unsigned().notNullable();
         table.foreign('user_id').references('id').inTable('users').onDelete('CASCADE');
-        table.integer('activitie_id').unsigned().notNullable();
-        table.foreign('activitie_id').references('id').inTable('activities').onDelete('CASCADE');
+        table.integer('activity_id').unsigned().notNullable();
+        table.foreign('activity_id').references('id').inTable('activities').onDelete('CASCADE');
     }); 
 };
 
