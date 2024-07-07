@@ -25,7 +25,7 @@ router.post('/completed/mark', auth, async (req, res) => {
         const { activity_id } = req.body;
         const activity = await db('activities').where({ id: activity_id }).first();
         if (activity) {
-            let completed = await db('activities_completed').where({ 
+            const completed = await db('activities_completed').where({ 
                 user_id, activity_id 
             }).first();
             if (completed) {
@@ -42,6 +42,19 @@ router.post('/completed/mark', auth, async (req, res) => {
             res.status(404).json({ status: 'error', message: 'Activity not found!' });
         }
     } catch (error) {
+        res.status(500).json({ status: 'error', message: 'Server error!' });
+    }
+});
+
+router.get('/completed/list', auth, async (req, res) => {
+    try {
+        const activities = await db('activities')
+            .join('activities_completed', 'activities.id', 'activities_completed.activity_id')
+            .select('activities.*')
+            .where('activities_completed.user_id', req.user.id);
+        res.status(200).json({ status: 'success', data: activities });
+    } catch (error) {
+        console.log(`ERROR: ${error}`)
         res.status(500).json({ status: 'error', message: 'Server error!' });
     }
 });
