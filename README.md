@@ -1,6 +1,6 @@
 # koatest
 
-[![ci](https://github.com/f483/koatest/actions/workflows/node.js.yml/badge.svg)](https://github.com/f483/koatest/actions/workflows/node.jy.yml)
+[![ci](https://github.com/f483/koatest/actions/workflows/node.js.yml/badge.svg)](https://github.com/f483/koatest/actions/workflows/node.js.yml)
 
 Koa Technical Test
 
@@ -19,7 +19,6 @@ Koa Technical Test
  * Better ORM with typed models.
  * Support Internationalization
  * Add linting
- * Add github actions for lint and test
 
 ## Other/Notes
 
