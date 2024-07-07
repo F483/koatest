@@ -8,6 +8,7 @@ exports.up = function(knex) {
         table.string('name');  // FIXME make unique and none null
         table.string('email');  // FIXME make unique and none null
         table.string('password');  // bcrypt hash
+        // TODO admin status (allowd to edit activities)
     }); 
 };
 

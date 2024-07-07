@@ -17,7 +17,7 @@ if (!config.jwt_secret) {
 
 if (process.env.NODE_ENV !== 'test') {
     app.listen(config.port, () => {
-        console.log(`Server running on port ${config.port}`);
+        console.log(`Server running on http://localhost:${config.port}/`);
     });
 }
 
