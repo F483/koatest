@@ -1,4 +1,7 @@
 # koatest
+
+[![ci](https://github.com/f483/koatest/actions/workflows/node.js.yml/badge.svg)](https://github.com/f483/koatest/actions/workflows/node.jy.yml)
+
 Koa Technical Test
 
 ## Commands
