@@ -118,3 +118,40 @@ describe('POST /api/activities/completed/list', () => {
     });
 
 });
+
+describe('POST /api/activities/{CRUD}', () => {
+
+    it('should create', async () => {
+        // login and get token
+        const login_response = await request(app)
+            .post('/api/user/login')
+            .send({ email: 'john@example.com', password: 'password' });
+        expect(login_response.status).toBe(200);
+        const token = login_response.body.token
+
+        const input_data = {
+            title: 'Dancing with the Shadows of Time',
+            description: 'Navigate uncovering secrets of timeless wonders.',
+            category: 'Relaxation',
+            difficulty: 'Easy',
+            duration: 30,
+            content: 'Discover hidden realms echoing ancient lore and cosmic wonders.'
+        }
+
+        const create_response = await request(app)
+            .post('/api/activities/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send(input_data);
+
+        expect(create_response.status).toBe(201);
+        expect(!!create_response.body.data.created_at).toBe(true);
+        expect(create_response.body.data.title).toEqual(input_data.title);
+        expect(create_response.body.data.description).toEqual(input_data.description);
+        expect(create_response.body.data.category).toEqual(input_data.category);
+        expect(create_response.body.data.difficulty).toEqual(input_data.difficulty);
+        expect(create_response.body.data.duration).toEqual(input_data.duration);
+        expect(create_response.body.data.content).toEqual(input_data.content);
+    });
+
+});
+

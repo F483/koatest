@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');  // TODO move usage to auth
 
 const db = require('../../db');
 const config = require('../../config');
@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
 router.get('/profile', auth, async (req, res) => {
     try {
         const { name, email } = req.user;
-		res.status(200).json({ name, email });
+        res.status(200).json({ name, email });
     } catch (error) {
         res.status(500).json({ message: 'Server error!' });
     }

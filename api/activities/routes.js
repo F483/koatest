@@ -8,10 +8,22 @@ const config = require('../../config');
 
 const router = express.Router();
 
-// TODO add bonus Create call
-// TODO add bonus Read call
-// TODO add bonus Update call
-// TODO add bonus Delete call
+// FIXME why is the 500 not working as/in middleware?
+
+router.post('/create', auth, async (req, res) => {
+    try {
+        // FIXME right user admin check
+        const { title, description, category, difficulty, duration, content } = req.body;
+        const saved = await db('activities').insert({
+            title, description, category, difficulty, duration, content,
+        }).returning('*');
+        const record = saved[0]
+        res.status(201).json({ status: 'success', data: record });
+    } catch (error) {
+        console.log(`ERROR: ${error}`);
+        res.status(500).json({ status: 'error', message: 'Server error!' });
+    }
+});
 
 router.get('/list', async (req, res) => {
     // TODO limit and add filter options
