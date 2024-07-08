@@ -66,7 +66,7 @@ router.post('/delete', auth, async (req, res) => {
 
 router.get('/list', async (req, res) => {
     // TODO limit and add filter options
-    const activities = await db('activities').select('*');
+    const activities = await db('activities').orderBy('id').select('*');
     res.json(activities);
 });
 
@@ -99,7 +99,7 @@ router.post('/completed/mark', auth, async (req, res) => {
 
 router.get('/completed/list', auth, async (req, res) => {
     try {
-        const activities = await db('activities')
+        const activities = await db('activities').orderBy('id')
             .join('activities_completed', 'activities.id', 'activities_completed.activity_id')
             .select('activities.*')
             .where('activities_completed.user_id', req.user.id);
