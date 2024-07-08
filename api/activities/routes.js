@@ -12,13 +12,27 @@ const router = express.Router();
 
 router.post('/create', auth, async (req, res) => {
     try {
-        // FIXME right user admin check
+        // FIXME user admin right check
         const { title, description, category, difficulty, duration, content } = req.body;
-        const saved = await db('activities').insert({
+        const result = await db('activities').insert({
             title, description, category, difficulty, duration, content,
         }).returning('*');
-        const record = saved[0]
+        const record = result[0]
         res.status(201).json({ status: 'success', data: record });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: 'Server error!' });
+    }
+});
+
+router.post('/update', auth, async (req, res) => {
+    try {
+        // FIXME user admin right check
+        // TODO only update properties where key is given
+        const { id, title, description, category, difficulty, duration, content } = req.body;
+        const result = await db('activities').where({ id }).update({
+            title, description, category, difficulty, duration, content
+        }).returning('*');
+        res.status(200).json({ status: 'success', data: result[0] });
     } catch (error) {
         console.log(`ERROR: ${error}`);
         res.status(500).json({ status: 'error', message: 'Server error!' });
@@ -43,11 +57,11 @@ router.post('/completed/mark', auth, async (req, res) => {
             if (completed) {
                 res.status(200).json({ status: 'success', data: { activity, completed } });
             } else {
-                const saved = await db('activities_completed').insert({ 
+                const result = await db('activities_completed').insert({ 
                     user_id, activity_id 
                 }).returning('*');
                 res.status(201).json({ status: 'success', data: {
-                    activity, completed: saved[0]
+                    activity, completed: result[0]
                 }});
             }
         } else {

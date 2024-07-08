@@ -121,7 +121,8 @@ describe('POST /api/activities/completed/list', () => {
 
 describe('POST /api/activities/{CRUD}', () => {
 
-    it('should create', async () => {
+    it('should CRUD', async () => {
+
         // login and get token
         const login_response = await request(app)
             .post('/api/user/login')
@@ -129,7 +130,8 @@ describe('POST /api/activities/{CRUD}', () => {
         expect(login_response.status).toBe(200);
         const token = login_response.body.token
 
-        const input_data = {
+        //  create
+        const create_data = {
             title: 'Dancing with the Shadows of Time',
             description: 'Navigate uncovering secrets of timeless wonders.',
             category: 'Relaxation',
@@ -137,20 +139,43 @@ describe('POST /api/activities/{CRUD}', () => {
             duration: 30,
             content: 'Discover hidden realms echoing ancient lore and cosmic wonders.'
         }
-
         const create_response = await request(app)
             .post('/api/activities/create')
             .set('Authorization', `Bearer ${token}`)
-            .send(input_data);
-
+            .send(create_data);
         expect(create_response.status).toBe(201);
+        expect(!!create_response.body.data.id).toBe(true);
         expect(!!create_response.body.data.created_at).toBe(true);
-        expect(create_response.body.data.title).toEqual(input_data.title);
-        expect(create_response.body.data.description).toEqual(input_data.description);
-        expect(create_response.body.data.category).toEqual(input_data.category);
-        expect(create_response.body.data.difficulty).toEqual(input_data.difficulty);
-        expect(create_response.body.data.duration).toEqual(input_data.duration);
-        expect(create_response.body.data.content).toEqual(input_data.content);
+        expect(create_response.body.data.title).toEqual(create_data.title);
+        expect(create_response.body.data.description).toEqual(create_data.description);
+        expect(create_response.body.data.category).toEqual(create_data.category);
+        expect(create_response.body.data.difficulty).toEqual(create_data.difficulty);
+        expect(create_response.body.data.duration).toEqual(create_data.duration);
+        expect(create_response.body.data.content).toEqual(create_data.content);
+
+        //  update
+        const update_data = {
+            id: create_response.body.data.id,
+            title: "Updated title",
+            description: create_data.description,
+            category: create_data.category,
+            difficulty: create_data.difficulty, 
+            duration: create_data.duration, 
+            content: create_data.content
+        }
+        const update_response = await request(app)
+            .post('/api/activities/update')
+            .set('Authorization', `Bearer ${token}`)
+            .send(update_data);
+        expect(update_response.status).toBe(200);
+        expect(update_response.body.data.id).toEqual(create_response.body.data.id);
+        expect(!!update_response.body.data.created_at).toBe(true);
+        expect(update_response.body.data.title).toEqual(update_data.title);
+        expect(update_response.body.data.description).toEqual(update_data.description);
+        expect(update_response.body.data.category).toEqual(update_data.category);
+        expect(update_response.body.data.difficulty).toEqual(update_data.difficulty);
+        expect(update_response.body.data.duration).toEqual(update_data.duration);
+        expect(update_response.body.data.content).toEqual(update_data.content);
     });
 
 });
