@@ -14,7 +14,7 @@ Koa Technical Test
 ## Improvements Options
 
  * More tests, all edge cases must be coverd before it can be conscidered production ready.
- * Replace /api/user/auth.js with lib.
+ * Replace /api/user/auth.js with lib that also has rights management.
  * Jsonschema for API validation and description (express-jsonschema and swagger).
  * Use typescript to increase general robustness.
  * Better ORM with typed models.

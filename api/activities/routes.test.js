@@ -159,8 +159,8 @@ describe('POST /api/activities/{CRUD}', () => {
             title: "Updated title",
             description: create_data.description,
             category: create_data.category,
-            difficulty: create_data.difficulty, 
-            duration: create_data.duration, 
+            difficulty: create_data.difficulty,
+            duration: create_data.duration,
             content: create_data.content
         }
         const update_response = await request(app)
@@ -176,6 +176,35 @@ describe('POST /api/activities/{CRUD}', () => {
         expect(update_response.body.data.difficulty).toEqual(update_data.difficulty);
         expect(update_response.body.data.duration).toEqual(update_data.duration);
         expect(update_response.body.data.content).toEqual(update_data.content);
+
+        // read
+        const read_response = await request(app)
+            .post('/api/activities/read')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ activity_id: update_response.body.data.id });
+        expect(read_response.status).toBe(200);
+        expect(read_response.body.data.id).toEqual(create_response.body.data.id);
+        expect(!!read_response.body.data.created_at).toBe(true);
+        expect(read_response.body.data.title).toEqual(update_data.title);
+        expect(read_response.body.data.description).toEqual(update_data.description);
+        expect(read_response.body.data.category).toEqual(update_data.category);
+        expect(read_response.body.data.difficulty).toEqual(update_data.difficulty);
+        expect(read_response.body.data.duration).toEqual(update_data.duration);
+        expect(read_response.body.data.content).toEqual(update_data.content);
+
+        // delete
+        const delete_response = await request(app)
+            .post('/api/activities/delete')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ activity_id: update_response.body.data.id });
+        expect(delete_response.status).toBe(200);
+
+        // read
+        const second_read_response = await request(app)
+            .post('/api/activities/read')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ activity_id: update_response.body.data.id });
+        expect(second_read_response.status).toBe(404);
     });
 
 });

@@ -34,7 +34,32 @@ router.post('/update', auth, async (req, res) => {
         }).returning('*');
         res.status(200).json({ status: 'success', data: result[0] });
     } catch (error) {
-        console.log(`ERROR: ${error}`);
+        res.status(500).json({ status: 'error', message: 'Server error!' });
+    }
+});
+
+router.post('/read', auth, async (req, res) => { // TODO change to get with parameter
+    try {
+        // FIXME user admin right check
+        const { activity_id } = req.body;
+        const activity = await db('activities').where({ id: activity_id }).first();
+        if (activity) {
+            res.status(200).json({ status: 'success', data: activity });
+        } else {
+            res.status(404).json({ status: 'error', message: 'Activity not found!' });
+        }
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: 'Server error!' });
+    }
+});
+
+router.post('/delete', auth, async (req, res) => {
+    try {
+        // FIXME user admin right check
+        const { activity_id } = req.body;
+        await db('activities').where({ id: activity_id }).del();
+        res.status(200).json({ status: 'success', data: {} });
+    } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error!' });
     }
 });
