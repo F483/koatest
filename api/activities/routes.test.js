@@ -7,7 +7,7 @@ describe('POST /api/activities/list', () => {
         const response = await request(app).get('/api/activities/list');
         expect(response.status).toBe(200);
         const titles = response.body.map(obj => obj.title);
-        expect(titles).toEqual([
+        expect([
             'Dancing with the Shadows of Time',
             'Journeying Through the Eternal Veil',
             'Exploring the Celestial Horizons',
@@ -18,7 +18,7 @@ describe('POST /api/activities/list', () => {
             'Capturing Fragments of Eternity',
             'Sailing the Sea of Lost Dreams',
             'Unraveling the Secrets of Night',
-        ]);
+        ]).toEqual(titles);
     });
 
     it('should allow user to mark activity as completed', async () => {
