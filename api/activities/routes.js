@@ -8,11 +8,10 @@ const config = require('../../config');
 
 const router = express.Router();
 
-// FIXME why is the 500 not working as/in middleware?
 
 router.post('/create', auth, async (req, res) => {
     try {
-        // FIXME user admin right check
+        // TODO user admin right check
         const { title, description, category, difficulty, duration, content } = req.body;
         const result = await db('activities').insert({
             title, description, category, difficulty, duration, content,
@@ -26,13 +25,17 @@ router.post('/create', auth, async (req, res) => {
 
 router.post('/update', auth, async (req, res) => {
     try {
-        // FIXME user admin right check
+        // TODO user admin right check
         // TODO only update properties where key is given
         const { id, title, description, category, difficulty, duration, content } = req.body;
         const result = await db('activities').where({ id }).update({
             title, description, category, difficulty, duration, content
         }).returning('*');
-        res.status(200).json({ status: 'success', data: result[0] });
+        if(!result || !result[0]) {
+            res.status(404).json({ status: 'error', message: 'Activity not found!' });
+        } else {
+            res.status(200).json({ status: 'success', data: result[0] });
+        }
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error!' });
     }
@@ -40,7 +43,7 @@ router.post('/update', auth, async (req, res) => {
 
 router.post('/read', auth, async (req, res) => { // TODO change to get with parameter
     try {
-        // FIXME user admin right check
+        // TODO user admin right check
         const { activity_id } = req.body;
         const activity = await db('activities').where({ id: activity_id }).first();
         if (activity) {
@@ -55,7 +58,7 @@ router.post('/read', auth, async (req, res) => { // TODO change to get with para
 
 router.post('/delete', auth, async (req, res) => {
     try {
-        // FIXME user admin right check
+        // TODO user admin right check
         const { activity_id } = req.body;
         await db('activities').where({ id: activity_id }).del();
         res.status(200).json({ status: 'success', data: {} });
@@ -109,5 +112,8 @@ router.get('/completed/list', auth, async (req, res) => {
         res.status(500).json({ status: 'error', message: 'Server error!' });
     }
 });
+
+// TODO call to list incompleted
+// TODO call to list all with status
 
 module.exports = router;

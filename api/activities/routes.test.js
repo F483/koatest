@@ -183,7 +183,7 @@ describe('POST /api/activities/{CRUD}', () => {
             .set('Authorization', `Bearer ${token}`)
             .send({ activity_id: update_response.body.data.id });
         expect(read_response.status).toBe(200);
-        expect(read_response.body.data.id).toEqual(create_response.body.data.id);
+        expect(read_response.body.data.id).toEqual(update_data.id);
         expect(!!read_response.body.data.created_at).toBe(true);
         expect(read_response.body.data.title).toEqual(update_data.title);
         expect(read_response.body.data.description).toEqual(update_data.description);
@@ -206,6 +206,40 @@ describe('POST /api/activities/{CRUD}', () => {
             .send({ activity_id: update_response.body.data.id });
         expect(second_read_response.status).toBe(404);
     });
+    it('should 404 on incorrect id for update', async () => {
 
+        // login and get token
+        const login_response = await request(app)
+            .post('/api/user/login')
+            .send({ email: 'john@example.com', password: 'password' });
+        expect(login_response.status).toBe(200);
+        const token = login_response.body.token
+
+        //  create
+        const create_data = {
+            title: 'Dancing with the Shadows of Time',
+            description: 'Navigate uncovering secrets of timeless wonders.',
+            category: 'Relaxation',
+            difficulty: 'Easy',
+            duration: 30,
+            content: 'Discover hidden realms echoing ancient lore and cosmic wonders.'
+        }
+        //  update
+        const update_data = {
+            id: -1,
+            title: create_data.title,
+            description: create_data.description,
+            category: create_data.category,
+            difficulty: create_data.difficulty,
+            duration: create_data.duration,
+            content: create_data.content
+        }
+        const update_response = await request(app)
+            .post('/api/activities/update')
+            .set('Authorization', `Bearer ${token}`)
+            .send(update_data);
+
+        expect(update_response.status).toBe(404);
+    });
 });
 

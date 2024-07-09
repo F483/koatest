@@ -1,6 +1,6 @@
 const db = require('./db');
 
-// FIXME change setup so db is freshly setup for each test
+// TODO change setup so db is freshly setup for each test
 
 beforeAll(async () => {
     await db.migrate.latest();
