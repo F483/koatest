@@ -104,13 +104,9 @@ describe('POST /api/activities/completed/list', () => {
             .set('Authorization', `Bearer ${token}`);
         expect(completed_activities_response.status).toBe(200);
 
-        // expect(completed_activities_response.body).toEqual("goo")
-        expect(completed_activities_response.body.data[0].title)
-            .toEqual("Dancing with the Shadows of Time");
-        expect(completed_activities_response.body.data[1].title)
-            .toEqual("Exploring the Celestial Horizons");
-        expect(completed_activities_response.body.data[2].title)
-            .toEqual("Navigating the Cosmic Labyrinth");
+        expect(completed_activities_response.body.data.length).toEqual(2);
+        expect(completed_activities_response.body.data[0].id).toEqual(activity_a.id);
+        expect(completed_activities_response.body.data[1].id).toEqual(activity_b.id);
     });
 
     it('should CRUD', async () => {

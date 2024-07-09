@@ -1,9 +1,10 @@
 const db = require('./db');
 
-// TODO change setup so db is freshly setup for each test
-
 beforeAll(async () => {
     await db.migrate.latest();
+});
+
+beforeEach(async () => {
     await db.seed.run();
 });
 
