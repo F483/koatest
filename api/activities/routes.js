@@ -60,8 +60,12 @@ router.post('/delete', auth, async (req, res) => {
     try {
         // TODO user admin right check
         const { activity_id } = req.body;
-        await db('activities').where({ id: activity_id }).del();
-        res.status(200).json({ status: 'success', data: {} });
+        const result = await db('activities').where({ id: activity_id }).del().returning('*');
+        if(!result) {
+            res.status(404).json({ status: 'error', message: 'Activity not found!' });
+        } else {
+            res.status(200).json({ status: 'success', data: {} });
+        }
     } catch (error) {
         res.status(500).json({ status: 'error', message: 'Server error!' });
     }

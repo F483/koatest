@@ -205,7 +205,15 @@ describe('POST /api/activities/{CRUD}', () => {
             .set('Authorization', `Bearer ${token}`)
             .send({ activity_id: update_response.body.data.id });
         expect(second_read_response.status).toBe(404);
+        
+        // delete
+        const second_delete_response = await request(app)
+            .post('/api/activities/delete')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ activity_id: update_response.body.data.id });
+        expect(second_delete_response.status).toBe(404);
     });
+
     it('should 404 on incorrect id for update', async () => {
 
         // login and get token
