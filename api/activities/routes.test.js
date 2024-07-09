@@ -21,10 +21,6 @@ describe('POST /api/activities/list', () => {
         ]);
     });
 
-});
-
-describe('POST /api/activities/completed/mark', () => {
-
     it('should allow user to mark activity as completed', async () => {
 
         // login and get token
@@ -116,10 +112,6 @@ describe('POST /api/activities/completed/list', () => {
         expect(completed_activities_response.body.data[2].title)
             .toEqual("Navigating the Cosmic Labyrinth");
     });
-
-});
-
-describe('POST /api/activities/{CRUD}', () => {
 
     it('should CRUD', async () => {
 
