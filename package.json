@@ -1,7 +1,7 @@
 {
-  "name": "koatest",
+  "name": "node-test",
   "version": "1.0.0",
-  "description": "Koa Technical Test",
+  "description": "Node Test Project",
   "main": "index.js",
   "directories": {
     "doc": "docs"
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/F483/koatest.git"
+    "url": "git+https://github.com/F483/node-test.git"
   },
   "keywords": [],
   "author": "Fabian Barkhau",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/F483/koatest/issues"
+    "url": "https://github.com/F483/node-test/issues"
   },
-  "homepage": "https://github.com/F483/koatest#readme",
+  "homepage": "https://github.com/F483/node-test#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",

@@ -1,8 +1,8 @@
-# koatest
+# node-test
 
-[![ci](https://github.com/f483/koatest/actions/workflows/node.js.yml/badge.svg)](https://github.com/f483/koatest/actions/workflows/node.js.yml)
+[![ci](https://github.com/f483/node-test/actions/workflows/node.js.yml/badge.svg)](https://github.com/f483/node-test/actions/workflows/node.js.yml)
 
-Koa Technical Test
+Node Test Project
 
 ## Commands
 
